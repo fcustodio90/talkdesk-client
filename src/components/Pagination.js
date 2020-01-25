@@ -1,22 +1,29 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Pagination = () => {
   return (
     <ul className="pagination">
       <li>
-        <a href="#">&lt;</a>
+        <Link to="/">&lt;</Link>
       </li>
       <li>
-        <a href="#">1</a>
+        <Link to="/" href="#">
+          1
+        </Link>
       </li>
       <li className="active">
-        <a href="#">2</a>
+        <Link to="/" href="#">
+          2
+        </Link>
       </li>
       <li>
-        <a href="#">3</a>
+        <Link to="/" href="#">
+          3
+        </Link>
       </li>
       <li>
-        <a href="#">&gt;</a>
+        <Link to="/">&gt;</Link>
       </li>
     </ul>
   );

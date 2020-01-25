@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   fetchCategories,
   fetchAppsByCategory,
@@ -24,9 +25,9 @@ class SideBarList extends React.Component {
     return this.props.categories.map((category, index) => {
       return (
         <li key={index} className={this.renderActiveCategory(category)}>
-          <a href="#" onClick={e => this.onSelectCategory(category)}>
+          <Link to="/" onClick={e => this.onSelectCategory(category)}>
             {category}
-          </a>
+          </Link>
         </li>
       );
     });
