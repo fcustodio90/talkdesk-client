@@ -1,34 +1,30 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchCategories, fetchAppsByCategory } from "../actions";
+import {
+  fetchCategories,
+  fetchAppsByCategory,
+  selectCategory
+} from "../actions";
 
 class SideBarList extends React.Component {
-  state = {
-    selectedCategory: null
-  };
-
   componentDidMount() {
     this.props.fetchCategories();
   }
 
-  componentDidUpdate() {
-    if (this.state.selectedCategory !== null) {
-      this.props.fetchAppsByCategory(this.state.selectedCategory);
-    }
+  onSelectCategory(category) {
+    this.props.selectCategory(category);
+    this.props.fetchAppsByCategory(category);
+  }
+
+  renderActiveCategory(category) {
+    return this.props.selectedCategory.name === category ? "active" : "";
   }
 
   renderList() {
-    console.log(this.state);
     return this.props.categories.map((category, index) => {
       return (
-        <li
-          key={index}
-          className={this.state.selectedCategory === category ? "active" : ""}
-        >
-          <a
-            href="#"
-            onClick={e => this.setState({ selectedCategory: category })}
-          >
+        <li key={index} className={this.renderActiveCategory(category)}>
+          <a href="#" onClick={e => this.onSelectCategory(category)}>
             {category}
           </a>
         </li>
@@ -47,10 +43,13 @@ class SideBarList extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { categories: state.categories };
+  return {
+    categories: state.categories,
+    selectedCategory: state.selectedCategory
+  };
 };
 
 export default connect(
   mapStateToProps,
-  { fetchCategories, fetchAppsByCategory }
+  { fetchCategories, fetchAppsByCategory, selectCategory }
 )(SideBarList);

@@ -1,4 +1,10 @@
-import { FETCH_APPS, FETCH_CATEGORIES } from "./types";
+import {
+  FETCH_APPS,
+  FETCH_CATEGORIES,
+  FETCH_APPS_BY_CATEGORY,
+  SELECT_CATEGORY
+} from "./types";
+
 import talkdeskApi from "../apis/talkdeskApi";
 
 export const fetchApps = () => async dispatch => {
@@ -38,6 +44,10 @@ export const fetchCategories = () => async (dispatch, getState) => {
   dispatch({ type: FETCH_CATEGORIES, payload: categories });
 };
 
+export const selectCategory = category => {
+  return { type: SELECT_CATEGORY, payload: category };
+};
+
 export const fetchAppsByCategory = selectedCategory => async (
   dispatch,
   getState
@@ -52,5 +62,5 @@ export const fetchAppsByCategory = selectedCategory => async (
     }
   });
 
-  dispatch({ type: "FETCH_APPS_BY_CATEGORY", payload: filteredResponse });
+  dispatch({ type: FETCH_APPS_BY_CATEGORY, payload: filteredResponse });
 };
