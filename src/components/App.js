@@ -1,12 +1,14 @@
 import React from "react";
+
 import "../index.css";
+import { connect } from "react-redux";
+import { fetchApps } from "../actions";
+import { BrowserRouter, Route } from "react-router-dom";
 
 import SearchBar from "./SearchBar";
 import SideBarList from "./SideBarList";
 import AppList from "./AppList";
 import Pagination from "./Pagination";
-import { connect } from "react-redux";
-import { fetchApps } from "../actions";
 
 class App extends React.Component {
   componentDidMount() {
@@ -16,12 +18,15 @@ class App extends React.Component {
   render() {
     return (
       <div className="flex-container">
-        <SideBarList />
-        <section className="apps-list">
-          <SearchBar />
-          <AppList />
-          <Pagination />
-        </section>
+        <BrowserRouter>
+          <Route path="/" exact component={SideBarList} />
+
+          <section className="apps-list">
+            <Route path="/" exact component={SearchBar} />
+            <Route path="/" exact component={AppList} />
+            <Route path="/" exact component={Pagination} />
+          </section>
+        </BrowserRouter>
       </div>
     );
   }
