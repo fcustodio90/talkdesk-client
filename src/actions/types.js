@@ -1,0 +1,2 @@
+export const FETCH_APPS = "FETCH_APPS";
+export const FETCH_CATEGORIES = "FETCH_CATEGORIES";
