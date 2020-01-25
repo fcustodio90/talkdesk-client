@@ -8,6 +8,7 @@ import {
 import talkdeskApi from "../apis/talkdeskApi";
 
 export const fetchApps = () => async dispatch => {
+  console.log("action fetchApps");
   const response = await talkdeskApi.get("/apps");
 
   let subscriptionPriceByApp = {};
@@ -35,6 +36,7 @@ export const fetchApps = () => async dispatch => {
 };
 
 export const fetchCategories = () => async (dispatch, getState) => {
+  console.log("action fetchCategories");
   await dispatch(fetchApps());
 
   const categories = [
@@ -45,6 +47,7 @@ export const fetchCategories = () => async (dispatch, getState) => {
 };
 
 export const selectCategory = category => {
+  console.log("action selectCategory");
   return { type: SELECT_CATEGORY, payload: category };
 };
 
@@ -52,6 +55,7 @@ export const fetchAppsByCategory = selectedCategory => async (
   dispatch,
   getState
 ) => {
+  console.log("action fetchAppsByCategory");
   await dispatch(fetchApps());
 
   let filteredResponse = [];
