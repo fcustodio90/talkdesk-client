@@ -1,12 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchApps } from "../actions";
 
 class AppList extends React.Component {
-  componentDidMount() {
-    this.props.fetchApps();
-  }
-
   renderList() {
     return this.props.apps.map(app => {
       return (
@@ -63,7 +58,4 @@ const mapStateToProps = state => {
   return { apps: state.apps };
 };
 
-export default connect(
-  mapStateToProps,
-  { fetchApps }
-)(AppList);
+export default connect(mapStateToProps)(AppList);
