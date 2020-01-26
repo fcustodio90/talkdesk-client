@@ -15,6 +15,20 @@ class AppList extends React.Component {
 
   filteredApps() {
     // Implementar aqui a searchCenas com base na store
+    const searchQuery = this.props.searchQuery;
+
+    if (searchQuery && searchQuery !== "") {
+      let queryArr = [];
+      queryArr.push(
+        this.props.apps.find(app => app.name.includes(searchQuery))
+      );
+      return queryArr.filter(
+        e =>
+          this.props.selectedCategory.name == null ||
+          e.categories.includes(this.props.selectedCategory.name)
+      );
+    }
+
     return this.props.apps.filter(
       e =>
         this.props.selectedCategory.name == null ||
@@ -89,7 +103,8 @@ const mapStateToProps = state => {
   return {
     selectedCategory: state.selectedCategory,
     apps: state.apps,
-    pagination: state.pagination
+    pagination: state.pagination,
+    searchQuery: state.searchQuery.term
   };
 };
 
