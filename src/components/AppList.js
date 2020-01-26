@@ -1,9 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
+import { fetchTotalRecords } from "../actions/index";
+import Pagination from "./Pagination";
 
 class AppList extends React.Component {
+  appsToRender() {
+    // get current Apps
+    const currentPage = this.props.pagination.currentPage;
+    const appsPerPage = this.props.pagination.appsPerPage;
+    const indexOfLastApp = currentPage * appsPerPage;
+    const indexOfFirstApp = indexOfLastApp - appsPerPage;
+
+    return this.props.apps.slice(indexOfFirstApp, indexOfLastApp);
+  }
+
   renderList() {
-    return this.props.apps.map(app => {
+    const currentApps = this.appsToRender();
+
+    return currentApps.map(app => {
       return (
         <li key={app.id.split("-").join("")}>
           <div className="app-item">
@@ -50,12 +64,20 @@ class AppList extends React.Component {
   }
 
   render() {
-    return <ul>{this.renderList()}</ul>;
+    return (
+      <React.Fragment>
+        <ul>{this.renderList()}</ul>
+        <Pagination />
+      </React.Fragment>
+    );
   }
 }
 
 const mapStateToProps = state => {
-  return { apps: state.apps };
+  return { apps: state.apps, pagination: state.pagination };
 };
 
-export default connect(mapStateToProps)(AppList);
+export default connect(
+  mapStateToProps,
+  { fetchTotalRecords }
+)(AppList);
