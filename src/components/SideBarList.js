@@ -5,10 +5,14 @@ import { selectCategory, setCurrentPage } from "../actions";
 
 class SideBarList extends React.Component {
   onSelectCategory(category) {
+    // everytime we select a category while using the sidebar the currentPage should be
+    // set to one in order to display the pagination at first page
     this.props.setCurrentPage(1);
+    // sets the new selectedCategory on redux store
     this.props.selectCategory(category);
   }
 
+  // helper method for css styling, applies active class
   renderActiveCategory(category) {
     return this.props.selectedCategory.name === category ? "active" : "";
   }
