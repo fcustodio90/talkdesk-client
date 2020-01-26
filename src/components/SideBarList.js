@@ -29,10 +29,21 @@ class SideBarList extends React.Component {
     });
   }
 
+  onResetClick() {
+    this.props.selectCategory(null);
+  }
+
   render() {
     return (
       <nav className="nav-categories">
         <h2>Categories</h2>
+        <Link
+          to="/"
+          className="nav-categories--reset"
+          onClick={() => this.onResetClick()}
+        >
+          Reset Categories
+        </Link>
         <ul className="nav-menu">{this.renderList()}</ul>
       </nav>
     );
