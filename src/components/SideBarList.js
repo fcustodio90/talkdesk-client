@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import {
   fetchCategories,
   fetchAppsByCategory,
-  selectCategory
+  selectCategory,
+  setCurrentPage
 } from "../actions";
 
 class SideBarList extends React.Component {
@@ -13,6 +14,7 @@ class SideBarList extends React.Component {
   }
 
   onSelectCategory(category) {
+    this.props.setCurrentPage(1);
     this.props.selectCategory(category);
     this.props.fetchAppsByCategory(category);
   }
@@ -52,5 +54,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { fetchCategories, fetchAppsByCategory, selectCategory }
+  { fetchCategories, fetchAppsByCategory, selectCategory, setCurrentPage }
 )(SideBarList);
