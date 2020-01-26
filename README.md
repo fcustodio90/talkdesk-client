@@ -1,6 +1,6 @@
 # Talkdesk Client
 
-This project was made for a front-end engineer challenge for talkdesk.
+This project was made for a front-end engineer interview challenge at talkdesk.
 
 ## Installation
 
@@ -52,5 +52,47 @@ npm install
 npm start
 ```
 The API will run by default on localhost:3001 unlike the client which will run on localhost:3000. If the server is not running locally the client side won't be fed any data whatsoever. 
+
+## React Components Hierarquy
+
+- Tier0 : App.js
+
+```jsx
+class App extends React.Component {
+  componentDidMount() {
+    this.props.fetchApps();
+  }
+
+  componentDidUpdate() {
+    this.props.fetchCategories(this.props.apps);
+    this.props.fetchTotalRecords(this.props.apps.length);
+  }
+
+  render() {
+    return (
+      <div className="flex-container">
+        <BrowserRouter>
+          <Route path="/" exact component={SideBarList} />
+          <section className="apps-list">
+            <Route path="/" exact component={SearchBar} />
+            <Route path="/" exact component={AppList} />
+          </section>
+        </BrowserRouter>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return { apps: state.apps };
+};
+
+export default connect(
+  mapStateToProps,
+  { fetchApps, fetchCategories, fetchTotalRecords }
+)(App);
+```
+
+
 
 
