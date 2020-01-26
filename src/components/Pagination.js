@@ -34,7 +34,10 @@ class Pagination extends React.Component {
     const pageNumbers = this.calculatePageNumbers();
     return pageNumbers.map(num => {
       return (
-        <li key={num}>
+        <li
+          key={num}
+          className={this.props.pagination.currentPage === num ? "active" : ""}
+        >
           <Link to="/" onClick={() => this.setCurrentPage(num)}>
             {num}
           </Link>
