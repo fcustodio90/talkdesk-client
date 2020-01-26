@@ -1,4 +1,10 @@
-import { FETCH_APPS, FETCH_CATEGORIES, SELECT_CATEGORY } from "./types";
+import {
+  FETCH_APPS,
+  FETCH_CATEGORIES,
+  SELECT_CATEGORY,
+  FETCH_TOTAL_RECORDS,
+  SET_CURRENT_PAGE
+} from "./types";
 
 import talkdeskApi from "../apis/talkdeskApi";
 
@@ -40,9 +46,9 @@ export const selectCategory = category => {
 };
 
 export const fetchTotalRecords = totalRecords => {
-  return { type: "FETCH_TOTAL_RECORDS", payload: totalRecords };
+  return { type: FETCH_TOTAL_RECORDS, payload: totalRecords };
 };
 
 export const setCurrentPage = currentPage => {
-  return { type: "SET_CURRENT_PAGE", payload: currentPage };
+  return { type: SET_CURRENT_PAGE, payload: currentPage };
 };
