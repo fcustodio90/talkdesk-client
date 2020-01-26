@@ -6,7 +6,7 @@ import { setCurrentPage } from "../actions";
 class Pagination extends React.Component {
   calculatePageNumbers() {
     // Gets the appsPerPage from redux store
-    const appsPerPage = this.props.pagination.appsPerPage;
+    const appsPerPage = this.props.perPage;
 
     // Ok this is bad design. I had to send the totalAppsPerRecord from the parent(appList)
     // this is one of the code blocks that I would re-do. There is no need whatsoever to make

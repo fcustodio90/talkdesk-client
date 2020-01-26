@@ -42,12 +42,9 @@ class AppList extends React.Component {
 
       const searchQuery = this.props.searchQuery.toLowerCase();
 
-      // initialize an empty array to be filled later with apps names
-      let appsNames = [];
-
-      appsFilteredByCategory.forEach(app => {
-        // push every app name to the appsNames array
-        appsNames.push(app.name.replace(/ /g, ""));
+      // initialize an array with apps names
+      const appsNames = appsFilteredByCategory.map(app => {
+        return app.name.replace(/ /g, "");
       });
 
       // Graps the appsNames array and matches it with the searchQuery
@@ -61,16 +58,13 @@ class AppList extends React.Component {
         );
       });
 
-      // Final step => Initialize an empty array that will be filled with app objects
-      const appsFilteredByCategoryAndQuery = [];
-
       // Iterates the apps filtered by Category compares it with the array with valid
       // regex matches and populates the previous mentioned array
-      appsFilteredByCategory.forEach(app => {
-        if (filteredArr.includes(app.name.replace(/ /g, ""))) {
-          appsFilteredByCategoryAndQuery.push(app);
+      const appsFilteredByCategoryAndQuery = appsFilteredByCategory.filter(
+        app => {
+          return filteredArr.includes(app.name.replace(/ /g, ""));
         }
-      });
+      );
 
       // In the end if the first if condition were met (this.props.searchQuery && this.props.searchQuery !== "")
       // returns an array of app objects filted by Category And searchQuery
@@ -159,7 +153,10 @@ class AppList extends React.Component {
     return (
       <React.Fragment>
         <ul>{this.renderList()}</ul>
-        <Pagination total={this.filteredApps().length} />
+        <Pagination
+          total={this.filteredApps().length}
+          perPage={this.props.pagination.appsPerPage}
+        />
       </React.Fragment>
     );
   }
