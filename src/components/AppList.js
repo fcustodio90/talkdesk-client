@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchTotalRecords } from "../actions/index";
 import Pagination from "./Pagination";
 
 class AppList extends React.Component {
@@ -81,7 +80,4 @@ const mapStateToProps = state => {
   return { apps: state.apps, pagination: state.pagination };
 };
 
-export default connect(
-  mapStateToProps,
-  { fetchTotalRecords }
-)(AppList);
+export default connect(mapStateToProps)(AppList);
