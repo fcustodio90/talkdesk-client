@@ -43,7 +43,11 @@ class AppList extends React.Component {
 
   renderCategories(categories) {
     return categories.map((category, index) => {
-      return <h1 key={index}>{category}</h1>;
+      return (
+        <span key={index}>
+          {categories.length - 1 !== index ? `${category} / ` : category}
+        </span>
+      );
     });
   }
 
