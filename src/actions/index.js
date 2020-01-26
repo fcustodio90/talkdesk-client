@@ -1,9 +1,4 @@
-import {
-  FETCH_APPS,
-  FETCH_CATEGORIES,
-  FETCH_APPS_BY_CATEGORY,
-  SELECT_CATEGORY
-} from "./types";
+import { FETCH_APPS, FETCH_CATEGORIES, SELECT_CATEGORY } from "./types";
 
 import talkdeskApi from "../apis/talkdeskApi";
 

@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchTotalRecords, setCurrentPage } from "../actions";
+import { setCurrentPage } from "../actions";
 
 class Pagination extends React.Component {
   calculatePageNumbers() {
     const appsPerPage = this.props.pagination.appsPerPage;
-    const totalAppsRecords = this.props.pagination.totalAppsRecords;
+    const totalAppsRecords = this.props.total;
     const pageNumbers = [];
 
     for (let i = 1; i <= Math.ceil(totalAppsRecords / appsPerPage); i++) {
@@ -73,5 +73,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { fetchTotalRecords, setCurrentPage }
+  { setCurrentPage }
 )(Pagination);

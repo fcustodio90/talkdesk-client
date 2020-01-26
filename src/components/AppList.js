@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { fetchTotalRecords } from "../actions";
 import Pagination from "./Pagination";
 
 class AppList extends React.Component {
@@ -10,7 +11,17 @@ class AppList extends React.Component {
     const indexOfLastApp = currentPage * appsPerPage;
     const indexOfFirstApp = indexOfLastApp - appsPerPage;
 
-    return this.props.apps.slice(indexOfFirstApp, indexOfLastApp);
+    if (this.props.selectedCategory === null) {
+      return this.props.apps.slice(indexOfFirstApp, indexOfLastApp);
+    } else {
+      let filteredApps = [];
+      this.props.apps.map(app => {
+        if (app.categories.find(a => a === this.props.selectedCategory)) {
+          filteredApps.push(app);
+        }
+      });
+      return filteredApps;
+    }
   }
 
   renderList() {
@@ -70,14 +81,21 @@ class AppList extends React.Component {
     return (
       <React.Fragment>
         <ul>{this.renderList()}</ul>
-        <Pagination />
+        <Pagination total={this.appsToRender().length} />
       </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = state => {
-  return { apps: state.apps, pagination: state.pagination };
+  return {
+    apps: state.apps,
+    selectedCategory: state.selectedCategory.name,
+    pagination: state.pagination
+  };
 };
 
-export default connect(mapStateToProps)(AppList);
+export default connect(
+  mapStateToProps,
+  { fetchTotalRecords }
+)(AppList);
