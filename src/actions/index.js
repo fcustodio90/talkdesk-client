@@ -11,16 +11,26 @@ import talkdeskApi from "../apis/talkdeskApi";
 export const fetchApps = () => async dispatch => {
   const response = await talkdeskApi.get("/apps");
 
+  // this will build an object with key value pairs
+  // { id: FILL_IN, price: FILL_IN,id: FILL_IN, price: FILL_IN, etc.. }
+
   let subscriptionPriceByApp = {};
 
-  response.data.map(x => {
+  // iterates the response
+  response.data.forEach(x => {
+    // sets a sum counter
     let sum = 0;
-    x.subscriptions.map(y => {
+    x.subscriptions.forEach(y => {
+      // for each subscription
+      // sums the price
+      // and adds it to the subscriptionPriceByApp object
       sum += y.price;
       subscriptionPriceByApp[x.id] = sum;
     });
   });
 
+  // graps the previous object and returns a new array of app Ids only sorted
+  // by the sum of subscription price in descending order
   const sortedAppsById = Object.keys(subscriptionPriceByApp).sort(function(
     a,
     b
@@ -28,6 +38,8 @@ export const fetchApps = () => async dispatch => {
     return subscriptionPriceByApp[b] - subscriptionPriceByApp[a];
   });
 
+  // matches the response with the array of ids sorted by subscription sum prices
+  // and orders it accordingly
   const sortedResponse = response.data.sort(function(a, b) {
     return sortedAppsById.indexOf(a.id) - sortedAppsById.indexOf(b.id);
   });

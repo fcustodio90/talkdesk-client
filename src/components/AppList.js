@@ -4,57 +4,90 @@ import Pagination from "./Pagination";
 
 class AppList extends React.Component {
   paginatedApps() {
-    // get current Apps
+    // get currentPage initial value is always 1
+    // since we wanna be 100% on first page when re-rendering
     const currentPage = this.props.pagination.currentPage;
+
+    // get apps per page -> this is fixed at 3
+    // check paginationReducer for default state values
     const appsPerPage = this.props.pagination.appsPerPage;
+
     const indexOfLastApp = currentPage * appsPerPage;
     const indexOfFirstApp = indexOfLastApp - appsPerPage;
 
+    // calls filteredApps and slices based on index to display the right
+    // records per page
     return this.filteredApps().slice(indexOfFirstApp, indexOfLastApp);
   }
 
   filteredApps() {
+    // Initial setup filters apps from redux store by selectedCategory
+    // returns an array of app objects
     const appsFilteredByCategory = this.props.apps.filter(
       e =>
         this.props.selectedCategory.name == null ||
         e.categories.includes(this.props.selectedCategory.name)
     );
 
+    // First condition the following block code will only executed based on two assumptions
+    // One => the searchQuery is not undefined. When the component first gets rendered the redux
+    //        store won't have a searchQuery since the action creator wasn't called yet.
+    //
+    // Two => Protects against empty searchQuery string, this happens when the user typed something
+    //        but deleted later deleted everything which makes the queryString in redux store empty
+
     if (this.props.searchQuery && this.props.searchQuery !== "") {
-      // Implementar aqui a searchCenas com base na store
+      // Conditions were met, this means there is a searchQuery to be applied to the already previously
+      // filtered array of app objects (they were filtered by selectedCategory.)
+
       const searchQuery = this.props.searchQuery.toLowerCase();
 
+      // initialize an empty array to be filled later with apps names
       let appsNames = [];
 
       appsFilteredByCategory.forEach(app => {
+        // push every app name to the appsNames array
         appsNames.push(app.name.replace(/ /g, ""));
       });
 
-      if (searchQuery && searchQuery !== "") {
-        var filteredArr = appsNames.filter(x => {
-          var xSub = x.substring(0, 3).toLowerCase();
-          return (
-            x.toLowerCase().includes(searchQuery) ||
-            this.checkName(xSub, searchQuery)
-          );
-        });
-      }
+      // Graps the appsNames array and matches it with the searchQuery
+      // returns an array with results(apps names) that were valid regex Matches
+      // with the queryString
+      const filteredArr = appsNames.filter(x => {
+        const xSub = x.substring(0, 3).toLowerCase();
+        return (
+          x.toLowerCase().includes(searchQuery) ||
+          this.checkName(xSub, searchQuery)
+        );
+      });
 
+      // Final step => Initialize an empty array that will be filled with app objects
       const appsFilteredByCategoryAndQuery = [];
 
+      // Iterates the apps filtered by Category compares it with the array with valid
+      // regex matches and populates the previous mentioned array
       appsFilteredByCategory.forEach(app => {
         if (filteredArr.includes(app.name.replace(/ /g, ""))) {
           appsFilteredByCategoryAndQuery.push(app);
         }
       });
 
+      // In the end if the first if condition were met (this.props.searchQuery && this.props.searchQuery !== "")
+      // returns an array of app objects filted by Category And searchQuery
       return appsFilteredByCategoryAndQuery;
     }
 
+    // Else returns the usual array of app objects filted by category
     return appsFilteredByCategory;
   }
 
   checkName(name, str) {
+    // ?= is a positive lookahead.
+    // . matches any character except line break.
+    // * matches zero or more instances of a character.
+    // () is a capturing group, which is used to group characters together in a
+    //    regular expression so that we can apply other operators (?=.*).
+    // g is the global modifier which performs a global search of the string looking for matches.
     const pattern = str
       .split("")
       .map(x => {
@@ -65,11 +98,13 @@ class AppList extends React.Component {
     return name.match(regex);
   }
 
+  // helper function to renderList
   renderList() {
     const currentApps = this.paginatedApps();
 
     return currentApps.map(app => {
       return (
+        // somehow react doesn't like ids with dashes so I removed them and joined the string
         <li key={app.id.split("-").join("")}>
           <div className="app-item">
             <div className="box-info">
@@ -92,6 +127,7 @@ class AppList extends React.Component {
     });
   }
 
+  // helper function to render categories on each app
   renderCategories(categories) {
     return categories.map((category, index) => {
       return (
@@ -102,6 +138,7 @@ class AppList extends React.Component {
     });
   }
 
+  // helper function to render subscriptions on each app
   renderSubscriptions(subscriptions) {
     return subscriptions.map((subscription, index) => {
       return (

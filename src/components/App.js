@@ -11,11 +11,14 @@ import AppList from "./AppList";
 
 class App extends React.Component {
   componentDidMount() {
+    // sets the redux store with apps
     this.props.fetchApps();
   }
 
   componentDidUpdate() {
+    // sets the redux store with categories
     this.props.fetchCategories(this.props.apps);
+    // sets the initial totalRecords on initial render for pagination
     this.props.fetchTotalRecords(this.props.apps.length);
   }
 
