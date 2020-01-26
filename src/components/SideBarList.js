@@ -39,7 +39,7 @@ class SideBarList extends React.Component {
         <h2>Categories</h2>
         <Link
           to="/"
-          className="nav-categories--reset"
+          className="nav-categories__reset"
           onClick={() => this.onResetClick()}
         >
           Reset Categories
