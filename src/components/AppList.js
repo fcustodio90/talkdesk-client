@@ -1,31 +1,29 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchTotalRecords } from "../actions";
 import Pagination from "./Pagination";
 
 class AppList extends React.Component {
-  appsToRender() {
+  paginatedApps() {
     // get current Apps
     const currentPage = this.props.pagination.currentPage;
     const appsPerPage = this.props.pagination.appsPerPage;
     const indexOfLastApp = currentPage * appsPerPage;
     const indexOfFirstApp = indexOfLastApp - appsPerPage;
 
-    if (this.props.selectedCategory === null) {
-      return this.props.apps.slice(indexOfFirstApp, indexOfLastApp);
-    } else {
-      let filteredApps = [];
-      this.props.apps.map(app => {
-        if (app.categories.find(a => a === this.props.selectedCategory)) {
-          filteredApps.push(app);
-        }
-      });
-      return filteredApps;
-    }
+    return this.filteredApps().slice(indexOfFirstApp, indexOfLastApp);
+  }
+
+  filteredApps() {
+    // Implementar aqui a searchCenas com base na store
+    return this.props.apps.filter(
+      e =>
+        this.props.selectedCategory.name == null ||
+        e.categories.includes(this.props.selectedCategory.name)
+    );
   }
 
   renderList() {
-    const currentApps = this.appsToRender();
+    const currentApps = this.paginatedApps();
 
     return currentApps.map(app => {
       return (
@@ -81,7 +79,7 @@ class AppList extends React.Component {
     return (
       <React.Fragment>
         <ul>{this.renderList()}</ul>
-        <Pagination total={this.appsToRender().length} />
+        <Pagination total={this.filteredApps().length} />
       </React.Fragment>
     );
   }
@@ -89,13 +87,10 @@ class AppList extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    selectedCategory: state.selectedCategory,
     apps: state.apps,
-    selectedCategory: state.selectedCategory.name,
     pagination: state.pagination
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { fetchTotalRecords }
-)(AppList);
+export default connect(mapStateToProps)(AppList);
