@@ -20,13 +20,13 @@ const mapDispatchToProps = dispatch => {
     onSearchTermChange: value =>
       dispatch({
         type: "SET_SEARCH_QUERY",
-        payload: value
+        payload: value.replace(/ /g, "")
       })
   };
 };
 
 const mapStateToProps = state => {
-  return { searchQuery: state.searchQuery.term };
+  return { searchQuery: state.searchQuery.string };
 };
 
 export default connect(

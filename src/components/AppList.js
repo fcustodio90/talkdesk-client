@@ -170,7 +170,7 @@ const mapStateToProps = state => {
     selectedCategory: state.selectedCategory,
     apps: state.apps,
     pagination: state.pagination,
-    searchQuery: state.searchQuery.term
+    searchQuery: state.searchQuery.string
   };
 };
 

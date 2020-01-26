@@ -1,11 +1,9 @@
 import { SET_SEARCH_QUERY } from "../actions/types";
 
-const INITIAL_STATE = {};
-
-export default (state = INITIAL_STATE, action) => {
+export default (state = {}, action) => {
   switch (action.type) {
     case SET_SEARCH_QUERY:
-      return { ...state, term: action.payload };
+      return { ...state, string: action.payload };
     default:
       return state;
   }
