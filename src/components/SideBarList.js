@@ -1,22 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  fetchCategories,
-  fetchAppsByCategory,
-  selectCategory,
-  setCurrentPage
-} from "../actions";
+import { selectCategory, setCurrentPage } from "../actions";
 
 class SideBarList extends React.Component {
-  componentDidMount() {
-    this.props.fetchCategories();
-  }
-
   onSelectCategory(category) {
     this.props.setCurrentPage(1);
     this.props.selectCategory(category);
-    this.props.fetchAppsByCategory(category);
   }
 
   renderActiveCategory(category) {
@@ -47,6 +37,7 @@ class SideBarList extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    apps: state.apps,
     categories: state.categories,
     selectedCategory: state.selectedCategory
   };
@@ -54,5 +45,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { fetchCategories, fetchAppsByCategory, selectCategory, setCurrentPage }
+  { selectCategory, setCurrentPage }
 )(SideBarList);

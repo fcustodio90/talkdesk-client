@@ -2,7 +2,7 @@ import React from "react";
 
 import "../index.css";
 import { connect } from "react-redux";
-import { fetchApps, fetchTotalRecords } from "../actions";
+import { fetchApps, fetchCategories, fetchTotalRecords } from "../actions";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import SearchBar from "./SearchBar";
@@ -15,6 +15,7 @@ class App extends React.Component {
   }
 
   componentDidUpdate() {
+    this.props.fetchCategories(this.props.apps);
     this.props.fetchTotalRecords(this.props.apps.length);
   }
 
@@ -39,5 +40,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { fetchApps, fetchTotalRecords }
+  { fetchApps, fetchCategories, fetchTotalRecords }
 )(App);
