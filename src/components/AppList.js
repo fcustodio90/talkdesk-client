@@ -29,12 +29,12 @@ class AppList extends React.Component {
         e.categories.includes(this.props.selectedCategory.name)
     );
 
-    // First condition the following block code will only executed based on two assumptions
+    // First condition check the following block code will only executed based on two assumptions
     // One => the searchQuery is not undefined. When the component first gets rendered the redux
     //        store won't have a searchQuery since the action creator wasn't called yet.
     //
     // Two => Protects against empty searchQuery string, this happens when the user typed something
-    //        but deleted later deleted everything which makes the queryString in redux store empty
+    //        but later deleted everything which makes the searchQuery in redux store empty
 
     if (this.props.searchQuery && this.props.searchQuery !== "") {
       // Conditions were met, this means there is a searchQuery to be applied to the already previously
@@ -52,7 +52,7 @@ class AppList extends React.Component {
 
       // Graps the appsNames array and matches it with the searchQuery
       // returns an array with results(apps names) that were valid regex Matches
-      // with the queryString
+      // with the searchQuery
       const filteredArr = appsNames.filter(x => {
         const xSub = x.substring(0, 3).toLowerCase();
         return (
