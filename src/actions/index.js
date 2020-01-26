@@ -34,35 +34,14 @@ export const fetchApps = () => async dispatch => {
   dispatch({ type: FETCH_APPS, payload: sortedResponse });
 };
 
-export const fetchCategories = () => async (dispatch, getState) => {
-  await dispatch(fetchApps());
+export const fetchCategories = apps => {
+  const categories = [...new Set(apps.flatMap(app => app.categories))].sort();
 
-  const categories = [
-    ...new Set(getState().apps.flatMap(app => app.categories))
-  ].sort();
-
-  dispatch({ type: FETCH_CATEGORIES, payload: categories });
+  return { type: FETCH_CATEGORIES, payload: categories };
 };
 
 export const selectCategory = category => {
   return { type: SELECT_CATEGORY, payload: category };
-};
-
-export const fetchAppsByCategory = selectedCategory => async (
-  dispatch,
-  getState
-) => {
-  await dispatch(fetchApps());
-
-  let filteredResponse = [];
-
-  getState().apps.map(app => {
-    if (app.categories.find(a => a === selectedCategory)) {
-      return filteredResponse.push(app);
-    }
-  });
-
-  dispatch({ type: FETCH_APPS_BY_CATEGORY, payload: filteredResponse });
 };
 
 export const fetchTotalRecords = totalRecords => {
