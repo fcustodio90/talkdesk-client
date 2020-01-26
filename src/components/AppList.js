@@ -14,26 +14,55 @@ class AppList extends React.Component {
   }
 
   filteredApps() {
-    // Implementar aqui a searchCenas com base na store
-    const searchQuery = this.props.searchQuery;
-
-    if (searchQuery && searchQuery !== "") {
-      let queryArr = [];
-      queryArr.push(
-        this.props.apps.find(app => app.name.includes(searchQuery))
-      );
-      return queryArr.filter(
-        e =>
-          this.props.selectedCategory.name == null ||
-          e.categories.includes(this.props.selectedCategory.name)
-      );
-    }
-
-    return this.props.apps.filter(
+    const appsFilteredByCategory = this.props.apps.filter(
       e =>
         this.props.selectedCategory.name == null ||
         e.categories.includes(this.props.selectedCategory.name)
     );
+
+    if (this.props.searchQuery && this.props.searchQuery !== "") {
+      // Implementar aqui a searchCenas com base na store
+      const searchQuery = this.props.searchQuery.toLowerCase();
+
+      let appsNames = [];
+
+      appsFilteredByCategory.forEach(app => {
+        appsNames.push(app.name.replace(/ /g, ""));
+      });
+
+      if (searchQuery && searchQuery !== "") {
+        var filteredArr = appsNames.filter(x => {
+          var xSub = x.substring(0, 3).toLowerCase();
+          return (
+            x.toLowerCase().includes(searchQuery) ||
+            this.checkName(xSub, searchQuery)
+          );
+        });
+      }
+
+      const appsFilteredByCategoryAndQuery = [];
+
+      appsFilteredByCategory.forEach(app => {
+        if (filteredArr.includes(app.name.replace(/ /g, ""))) {
+          appsFilteredByCategoryAndQuery.push(app);
+        }
+      });
+
+      return appsFilteredByCategoryAndQuery;
+    }
+
+    return appsFilteredByCategory;
+  }
+
+  checkName(name, str) {
+    const pattern = str
+      .split("")
+      .map(x => {
+        return `(?=.*${x})`;
+      })
+      .join("");
+    const regex = new RegExp(`${pattern}`, "g");
+    return name.match(regex);
   }
 
   renderList() {
