@@ -48,18 +48,9 @@ Follow the same installation steps and run:
 ```bash
 npm install
 ```
-or
-```bash
-yarn install
-```
-
 ```bash
 npm start
 ```
-or
-```bash
-yarn start
-```
-The API will run by default on localhost:3001 unlike the client which will run on localhost:3000
+The API will run by default on localhost:3001 unlike the client which will run on localhost:3000. If the server is not running locally the client side won't be fed any data whatsoever. 
 
 
